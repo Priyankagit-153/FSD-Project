@@ -41,10 +41,25 @@ const protect = async (req, res, next) => {
 
 const authorize = (...roles) => {
   return (req, res, next) => {
-    if (!req.user || !roles.includes(req.user.role)) {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized, please authenticate.'
+      });
+    }
+
+    const userRole = req.user.role;
+    const hasRole = roles.some(role => {
+      if (role === userRole) return true;
+      if ((role === 'admin' || role === 'super_admin') && (userRole === 'admin' || userRole === 'super_admin')) return true;
+      if ((role === 'hod' || role === 'department_admin') && (userRole === 'hod' || userRole === 'department_admin')) return true;
+      return false;
+    });
+
+    if (!hasRole) {
       return res.status(403).json({
         success: false,
-        message: `User role '${req.user ? req.user.role : 'unauthenticated'}' is not authorized to access this route.`
+        message: `User role '${userRole}' is not authorized to access this route.`
       });
     }
     next();

@@ -16,10 +16,23 @@ const materialSchema = new mongoose.Schema({
     ref: 'Department',
     required: [true, 'Department is required']
   },
+  description: {
+    type: String,
+    default: ''
+  },
+  semester: {
+    type: String,
+    default: '5'
+  },
   type: {
     type: String,
-    enum: ['notes', 'lab manual', 'question bank', 'dataset', 'research'],
+    enum: ['notes', 'lab manual', 'question bank', 'dataset', 'research', 'research paper', 'project material'],
     required: [true, 'Material type is required']
+  },
+  category: {
+    type: String,
+    enum: ['notes', 'lab manual', 'question bank', 'dataset', 'research', 'research paper', 'project material'],
+    default: 'notes'
   },
   filePath: {
     type: String,
@@ -29,6 +42,9 @@ const materialSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  fileName: {
+    type: String
+  },
   fileSize: {
     type: Number,
     default: 0
@@ -36,6 +52,15 @@ const materialSchema = new mongoose.Schema({
   mimeType: {
     type: String,
     default: ''
+  },
+  fileType: {
+    type: String,
+    default: ''
+  },
+  visibility: {
+    type: String,
+    enum: ['public', 'department', 'faculty_only'],
+    default: 'public'
   },
   uploadedBy: {
     type: mongoose.Schema.Types.ObjectId,

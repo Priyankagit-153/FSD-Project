@@ -11,6 +11,15 @@ const bookingSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'Requested by user is required']
   },
+  bookedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  request: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ResourceRequest',
+    default: null
+  },
   department: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Department',

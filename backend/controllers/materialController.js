@@ -1,10 +1,12 @@
 const Material = require('../models/Material');
+const User = require('../models/User');
+const Notification = require('../models/Notification');
 const path = require('path');
 const fs = require('fs');
 const { logAudit } = require('../utils/auditLogger');
 
-// @desc    Upload academic material
-// @route   POST /api/materials
+// @desc    Upload academic material / resource
+// @route   POST /api/materials (or /api/academic-resources)
 // @access  Private (Faculty, HOD, Admin)
 const uploadMaterial = async (req, res, next) => {
   try {
@@ -12,31 +14,58 @@ const uploadMaterial = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Please select a file to upload.' });
     }
 
-    const { title, subject, department, type } = req.body;
+    const { title, subject, department, type, category, semester, description, visibility } = req.body;
 
-    if (!title || !subject || !type) {
-      // Remove uploaded file if validation fails
-      fs.unlinkSync(req.file.path);
-      return res.status(400).json({ success: false, message: 'Please provide title, subject, and material type.' });
+    const resourceType = category || type || 'notes';
+
+    if (!title || !subject) {
+      if (req.file && fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+      return res.status(400).json({ success: false, message: 'Please provide title and subject.' });
     }
 
     const deptId = department || req.user.department?._id;
     if (!deptId) {
-      fs.unlinkSync(req.file.path);
+      if (req.file && fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
       return res.status(400).json({ success: false, message: 'Department is required.' });
     }
 
     const material = await Material.create({
       title,
+      description: description || '',
       subject,
+      semester: semester || '5',
       department: deptId,
-      type,
+      type: resourceType,
+      category: resourceType,
       filePath: req.file.path,
       originalName: req.file.originalname,
+      fileName: req.file.filename || req.file.originalname,
       fileSize: req.file.size,
       mimeType: req.file.mimetype,
+      fileType: req.file.mimetype,
+      visibility: visibility || 'public',
       uploadedBy: req.user._id
     });
+
+    // Notify students of the department about new academic resource
+    const students = await User.find({
+      role: 'student',
+      department: deptId
+    }).select('_id');
+
+    for (const std of students.slice(0, 20)) {
+      await Notification.create({
+        user: std._id,
+        title: 'New Academic Resource Available',
+        message: `New ${resourceType} uploaded: "${title}" for ${subject}.`,
+        type: 'resource_uploaded',
+        link: '/academic-hub'
+      });
+    }
 
     await logAudit({
       action: 'MATERIAL_UPLOADED',
@@ -46,7 +75,7 @@ const uploadMaterial = async (req, res, next) => {
       details: {
         title,
         subject,
-        type,
+        category: resourceType,
         fileName: req.file.originalname,
         size: req.file.size
       }
@@ -54,10 +83,11 @@ const uploadMaterial = async (req, res, next) => {
 
     const populated = await Material.findById(material._id)
       .populate('department', 'name code')
-      .populate('uploadedBy', 'name email department');
+      .populate('uploadedBy', 'name email department designation');
 
     res.status(201).json({
       success: true,
+      message: 'Academic resource uploaded successfully.',
       data: populated
     });
   } catch (error) {
@@ -69,18 +99,22 @@ const uploadMaterial = async (req, res, next) => {
 };
 
 // @desc    Get all materials with filters & search
-// @route   GET /api/materials
+// @route   GET /api/materials (or /api/academic-resources)
 // @access  Private
 const getMaterials = async (req, res, next) => {
   try {
-    const { department, type, subject, search } = req.query;
+    const { department, type, category, semester, subject, search } = req.query;
     let query = {};
 
     if (department) {
       query.department = department;
     }
-    if (type) {
-      query.type = type;
+    const catFilter = category || type;
+    if (catFilter) {
+      query.$or = [{ type: catFilter }, { category: catFilter }];
+    }
+    if (semester) {
+      query.semester = semester;
     }
     if (subject) {
       query.subject = { $regex: subject, $options: 'i' };
@@ -89,7 +123,16 @@ const getMaterials = async (req, res, next) => {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
         { subject: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
         { originalName: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    // Role-based visibility check: Students only see public or their department materials
+    if (req.user.role === 'student') {
+      query.$or = [
+        { visibility: 'public' },
+        { visibility: 'department', department: req.user.department?._id }
       ];
     }
 
@@ -141,8 +184,10 @@ const deleteMaterial = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Material not found.' });
     }
 
+    const isSuperAdmin = req.user.role === 'admin' || req.user.role === 'super_admin';
+
     // Role check: Admin or owner can delete
-    if (req.user.role !== 'admin' && material.uploadedBy.toString() !== req.user._id.toString()) {
+    if (!isSuperAdmin && material.uploadedBy.toString() !== req.user._id.toString()) {
       return res.status(403).json({ success: false, message: 'You are only authorized to delete your own uploads.' });
     }
 

@@ -26,15 +26,25 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['admin', 'hod', 'faculty'],
+    enum: ['admin', 'super_admin', 'department_admin', 'hod', 'faculty', 'student'],
     default: 'faculty'
   },
   department: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Department',
     required: function () {
-      return this.role !== 'admin';
+      return this.role !== 'admin' && this.role !== 'super_admin';
     }
+  },
+  studentId: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  employeeId: {
+    type: String,
+    trim: true,
+    default: ''
   },
   designation: {
     type: String,
@@ -43,6 +53,10 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     default: ''
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true

@@ -16,6 +16,14 @@ const examSchema = new mongoose.Schema({
     ref: 'Department',
     required: [true, 'Department is required']
   },
+  semester: {
+    type: String,
+    default: '5'
+  },
+  section: {
+    type: String,
+    default: 'A'
+  },
   date: {
     type: String, // Stored as YYYY-MM-DD
     required: [true, 'Exam date is required']
@@ -28,6 +36,24 @@ const examSchema = new mongoose.Schema({
     type: String, // HH:mm
     required: [true, 'End time is required']
   },
+  studentCount: {
+    type: Number,
+    default: 60,
+    min: 1
+  },
+  totalStudents: {
+    type: Number,
+    default: 60
+  },
+  status: {
+    type: String,
+    enum: ['scheduled', 'published', 'completed', 'cancelled'],
+    default: 'scheduled'
+  },
+  description: {
+    type: String,
+    default: ''
+  },
   rooms: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Resource'
@@ -39,10 +65,6 @@ const examSchema = new mongoose.Schema({
   seatsPerRoom: {
     type: Number,
     default: 30
-  },
-  totalStudents: {
-    type: Number,
-    default: 60
   },
   roomAllocations: [{
     room: {

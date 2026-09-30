@@ -130,18 +130,21 @@ const getBookings = async (req, res, next) => {
       query.date = date;
     }
 
+    const isSuperAdmin = req.user.role === 'admin' || req.user.role === 'super_admin';
+    const isDeptAdmin = req.user.role === 'hod' || req.user.role === 'department_admin';
+
     // If "my=true", return only bookings created by the logged in user
     if (my === 'true') {
-      query.requestedBy = req.user._id;
-    } else if (req.user.role === 'faculty') {
-      // Faculty default: see own bookings, unless requesting approved bookings for calendar
+      query.$or = [{ requestedBy: req.user._id }, { bookedBy: req.user._id }];
+    } else if (!isSuperAdmin && !isDeptAdmin) {
+      // Faculty and Student default
       if (req.query.allApproved === 'true') {
         query.status = 'approved';
       } else {
-        query.requestedBy = req.user._id;
+        query.$or = [{ requestedBy: req.user._id }, { bookedBy: req.user._id }];
       }
-    } else if (req.user.role === 'hod') {
-      // HOD: can view all requests for resources owned by their department, or their own bookings
+    } else if (isDeptAdmin) {
+      // Department Admin / HOD
       if (department) {
         query.department = department;
       }
@@ -234,9 +237,12 @@ const updateBookingStatus = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Booking not found.' });
     }
 
+    const isSuperAdmin = req.user.role === 'admin' || req.user.role === 'super_admin';
+    const isDeptAdmin = req.user.role === 'hod' || req.user.role === 'department_admin';
+
     // Role check: Only Admin or HOD of the resource's department can approve/reject
-    if (req.user.role === 'hod') {
-      if (booking.resource.department.toString() !== req.user.department._id.toString()) {
+    if (!isSuperAdmin) {
+      if (!isDeptAdmin || booking.resource.department.toString() !== req.user.department?._id?.toString()) {
         return res.status(403).json({
           success: false,
           message: 'You are only authorized to approve or reject requests for your department\'s resources.'
@@ -259,17 +265,36 @@ const updateBookingStatus = async (req, res, next) => {
           success: false,
           conflict: true,
           message: `Cannot approve: ${conflict.message}`,
-          details: conflict.conflictingItem
+          details: conflict.conflictingItem,
+          alternatives: conflict.alternatives || []
         });
       }
     }
 
     booking.status = status;
-    booking.remarks = remarks || (status === 'approved' ? 'Request approved by HOD/Admin.' : 'Request rejected.');
+    booking.remarks = remarks || (status === 'approved' ? 'Request approved by department administrator.' : 'Request rejected.');
     booking.approvedBy = req.user._id;
     booking.approvedAt = new Date();
 
     await booking.save();
+
+    // Sync with ResourceRequest if exists
+    try {
+      const ResourceRequest = require('../models/ResourceRequest');
+      await ResourceRequest.findOneAndUpdate(
+        { $or: [{ _id: booking.request }, { booking: booking._id }] },
+        {
+          status,
+          remarks: booking.remarks,
+          approvedBy: status === 'approved' ? req.user._id : undefined,
+          approvedAt: status === 'approved' ? new Date() : undefined,
+          rejectedBy: status === 'rejected' ? req.user._id : undefined,
+          rejectedAt: status === 'rejected' ? new Date() : undefined
+        }
+      );
+    } catch (e) {
+      console.warn('Sync with ResourceRequest skipped:', e.message);
+    }
 
     // Notify requester
     await Notification.create({

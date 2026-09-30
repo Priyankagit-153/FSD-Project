@@ -17,6 +17,15 @@ const departmentSchema = new mongoose.Schema({
   description: {
     type: String,
     default: ''
+  },
+  admin: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
