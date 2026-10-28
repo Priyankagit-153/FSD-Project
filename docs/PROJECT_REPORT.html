@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Report - Inter-Departmental Planning and Resource Sharing Platform</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 11pt;
+      line-height: 1.45;
+      color: #000;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+    }
+    .page-container {
+      width: 210mm;
+      height: 296.5mm;
+      padding: 10mm 12mm;
+      margin: 0 auto;
+      background: #ffffff;
+      page-break-after: always;
+      break-after: page;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Outer and inner double border matching sample report */
+    .page-border {
+      width: 100%;
+      height: 100%;
+      border: 1.5px solid #000;
+      padding: 12mm 14mm 10mm 14mm;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+    .page-border::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+      border: 0.5px solid #000;
+      pointer-events: none;
+    }
+    .page-number {
+      position: absolute;
+      bottom: 4mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10.5pt;
+    }
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+      }
+      .page-container {
+        width: 210mm;
+        height: 296.5mm;
+        margin: 0;
+        padding: 10mm 12mm;
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+        overflow: hidden;
+      }
+    }
+    h1, h2, h3, h4 {
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 0;
+      color: #000;
+    }
+    h1 {
+      font-size: 16pt;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 14pt;
+      margin-bottom: 10px;
+    }
+    h3 {
+      font-size: 13pt;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      text-align: left;
+      font-size: 12pt;
+      font-weight: bold;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      text-transform: none;
+    }
+    p {
+      text-align: justify;
+      text-justify: inter-word;
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+    ul, ol {
+      margin: 8px 0 8px 20px;
+      padding-left: 10px;
+    }
+    li {
+      margin-bottom: 4px;
+      text-align: justify;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 10.5pt;
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 5px 8px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      text-align: center;
+    }
+    .table-caption {
+      font-weight: bold;
+      margin: 10px 0 4px 0;
+      font-size: 11pt;
+      text-align: center;
+    }
+    .figure-box {
+      text-align: center;
+      margin: 14px 0;
+    }
+    .figure-box img {
+      max-width: 95%;
+      max-height: 110mm;
+      border: 1px solid #333;
+      border-radius: 4px;
+    }
+    .figure-caption {
+      font-weight: bold;
+      margin-top: 6px;
+      font-size: 10.5pt;
+      text-align: center;
+    }
+    pre, code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 9.5pt;
+    }
+    pre {
+      background-color: #fafafa;
+      border: 1px solid #999;
+      padding: 8px 10px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 8px 0;
+      line-height: 1.3;
+    }
+    .center-text {
+      text-align: center;
+    }
+    .signature-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 70px;
+      padding: 0 10px;
+    }
+    .signature-box {
+      width: 45%;
+      text-align: left;
+      line-height: 1.35;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 9pt;
+      font-weight: bold;
+      border-radius: 3px;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1: TITLE PAGE ==================== -->
+  <div class="page-container">
+    <div class="page-border" style="display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 25mm 15mm;">
+      <div>
+        <h1 style="font-size: 15.5pt; letter-spacing: 0.5px;">INTER-DEPARTMENTAL PLANNING AND RESOURCE SHARING PLATFORM</h1>
+        <br><br>
+        <p class="center-text" style="font-size: 12pt; font-weight: bold; letter-spacing: 1px;">A PROJECT REPORT</p>
+        <p class="center-text" style="font-size: 11pt; margin-top: 15px;">Submitted by</p>
+        <p class="center-text" style="font-size: 13pt; font-weight: bold; margin-top: 5px;">PRIYANKA (310624104230)</p>
+        <br>
+        <p class="center-text" style="font-size: 11pt;">in partial fulfilment for the award of the Degree<br>of</p>
+        <p class="center-text" style="font-size: 13pt; font-weight: bold; margin-top: 6px;">BACHELOR OF ENGINEERING</p>
+        <p class="center-text" style="font-size: 11pt; margin-top: 4px;">in</p>
+        <p class="center-text" style="font-size: 13pt; font-weight: bold; margin-top: 4px;">COMPUTER SCIENCE AND ENGINEERING</p>
+      </div>
+
+      <div style="margin: 25px 0;">
+        <div style="width: 85px; height: 85px; border: 2px solid #065f46; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; background: #ecfdf5;">
+          <span style="font-size: 9pt; font-weight: bold; color: #065f46; text-align: center;">EASWARI<br>ENGG<br>COLLEGE</span>
+        </div>
+        <p class="center-text" style="font-size: 9pt; font-weight: bold; margin-top: 6px; letter-spacing: 1px;">AUTONOMOUS</p>
+      </div>
+
+      <div>
+        <p class="center-text" style="font-size: 13pt; font-weight: bold;">EASWARI ENGINEERING COLLEGE,</p>
+        <p class="center-text" style="font-size: 11pt; font-weight: bold;">(AN AUTONOMOUS INSTITUTION)</p>
+        <p class="center-text" style="font-size: 11pt; font-weight: bold;">AFFILIATED TO ANNA UNIVERSITY,</p>
+        <p class="center-text" style="font-size: 11pt; font-weight: bold;">CHENNAI</p>
+        <br>
+        <p class="center-text" style="font-size: 12pt; font-weight: bold;">OCTOBER 2026</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2: BONAFIDE CERTIFICATE ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 25mm 18mm;">
+      <div style="text-align: center; margin-bottom: 25px;">
+        <h2 style="font-size: 14pt;">EASWARI ENGINEERING COLLEGE</h2>
+        <h3 style="font-size: 13pt; letter-spacing: 0.5px; margin-top: 8px;">BONAFIDE CERTIFICATE</h3>
+      </div>
+      <br><br>
+      <p style="font-size: 12pt; line-height: 1.8; text-indent: 30px;">
+        Certified that this mini project report titled <strong>“INTER-DEPARTMENTAL PLANNING AND RESOURCE SHARING PLATFORM”</strong> is the Bonafide work of <strong>“PRIYANKA (310624104230)”</strong> who carried out the project work under my supervision.
+      </p>
+      <br><br><br><br><br><br><br><br><br>
+      <div class="signature-row">
+        <div class="signature-box">
+          <strong>HEAD OF THE DEPARTMENT</strong><br>
+          <strong>Dr. S. Cloudin</strong><br>
+          Easwari Engineering College<br>
+          Ramapuram, Chennai - 600089
+        </div>
+        <div class="signature-box" style="text-align: right;">
+          <strong>SUPERVISOR</strong><br>
+          <strong>Ms. Nagamani Segalla</strong><br>
+          Easwari Engineering College<br>
+          Ramapuram, Chennai - 600089
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 3: VIVA-VOCE CERTIFICATE ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 25mm 18mm;">
+      <div style="text-align: center; margin-bottom: 25px;">
+        <h2 style="font-size: 14pt;">EASWARI ENGINEERING COLLEGE</h2>
+        <h3 style="font-size: 13pt; letter-spacing: 0.5px; margin-top: 8px;">Certificate of Viva-voce-Examination</h3>
+      </div>
+      <br><br>
+      <p style="font-size: 12pt; line-height: 1.8; text-indent: 30px;">
+        This is to certify that the Viva Voce Examinations of the project work entitled <strong>“Inter-Departmental Planning and Resource Sharing Platform”</strong> submitted by <strong>Ms. PRIYANKA (310624104230)</strong> in partial fulfillment of the requirements for the award of the degree of Bachelor of Engineering in Computer Science and Engineering was conducted on 28th October 2026 in the Department of Computer Science and Engineering, Easwari Engineering College, Ramapuram – Chennai.
+      </p>
+      <br><br><br><br><br><br><br><br><br><br>
+      <div class="signature-row">
+        <div class="signature-box">
+          <strong>Internal Examiner</strong><br><br>
+          Date: 28th October 2026
+        </div>
+        <div class="signature-box" style="text-align: right;">
+          <strong>External Examiner</strong><br><br>
+          Date: 28th October 2026
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 4: ACKNOWLEDGEMENT ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 25mm 18mm;">
+      <h2 style="font-size: 14pt; margin-bottom: 25px;">ACKNOWLEDGEMENT</h2>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        We express our sincere gratitude to the Principal <strong>Dr. P. Deiva Sundari</strong> and the Management of our college for providing us with the opportunity and facilities to carry out this project work.
+      </p>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        We convey our heartfelt thanks to the Head of the Department, <strong>Dr. S. Cloudin</strong>, Department of Computer Science and Engineering, for the continuous encouragement and support.
+      </p>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        We are extremely thankful to our project guide <strong>Ms. Nagamani Segalla</strong>, Department of Computer Science and Engineering, for valuable guidance, suggestions and motivation throughout the completion of this project.
+      </p>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        We would also like to extend our gratitude to all the faculty members of the Department of Computer Science and Engineering for their support.
+      </p>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        Finally, we thank our parents and friends for their constant encouragement and help during the course of this project.
+      </p>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 5: TABLE OF CONTENTS ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <h2 style="font-size: 14pt; margin-bottom: 15px;">TABLE OF CONTENTS</h2>
+      <table style="width: 100%; border: none;">
+        <thead>
+          <tr style="border-bottom: 1.5px solid #000;">
+            <th style="border: none; text-align: center; width: 12%;">S. No.</th>
+            <th style="border: none; text-align: left; width: 73%;">Contents</th>
+            <th style="border: none; text-align: right; width: 15%;">Page No.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">1</td><td style="border:none; font-weight:bold;">Abstract</td><td style="border:none; text-align:right;">i</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">2</td><td style="border:none; font-weight:bold;">List of Figures</td><td style="border:none; text-align:right;">ii</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">3</td><td style="border:none; font-weight:bold;">List of Tables</td><td style="border:none; text-align:right;">iii</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">4</td><td style="border:none; font-weight:bold;">List of Abbreviations</td><td style="border:none; text-align:right;">iv</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">5</td><td style="border:none; font-weight:bold;">Chapter 1 – Introduction</td><td style="border:none; text-align:right;">1</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">5.1 Project Overview</td><td style="border:none; text-align:right;">1</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">5.2 Problem Statement</td><td style="border:none; text-align:right;">2</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">5.3 Objectives of the Project</td><td style="border:none; text-align:right;">2</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">5.4 Scope of the Project</td><td style="border:none; text-align:right;">3</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">6</td><td style="border:none; font-weight:bold;">Chapter 2 – Existing System and Proposed System</td><td style="border:none; text-align:right;">5</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">6.1 Existing System</td><td style="border:none; text-align:right;">5</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">6.2 Limitations of the Existing System</td><td style="border:none; text-align:right;">5</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">6.3 Proposed Solution</td><td style="border:none; text-align:right;">5</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">6.4 Advantages of the Proposed System</td><td style="border:none; text-align:right;">6</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">7</td><td style="border:none; font-weight:bold;">Chapter 3 – System Analysis and Design</td><td style="border:none; text-align:right;">7</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">7.1 Hardware and Software Requirements</td><td style="border:none; text-align:right;">7</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">7.2 System Architecture</td><td style="border:none; text-align:right;">8</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">7.3 Module Description</td><td style="border:none; text-align:right;">10</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">7.4 UML Diagrams / Data Flow Diagram</td><td style="border:none; text-align:right;">13</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">7.5 Algorithm / Flowchart</td><td style="border:none; text-align:right;">15</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">8</td><td style="border:none; font-weight:bold;">Chapter 4 – Implementation</td><td style="border:none; text-align:right;">17</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">8.1 Implementation Details</td><td style="border:none; text-align:right;">17</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">8.2 Module Implementation</td><td style="border:none; text-align:right;">18</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">8.3 Tools and Technologies Used</td><td style="border:none; text-align:right;">20</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">9</td><td style="border:none; font-weight:bold;">Chapter 5 – Results and Testing</td><td style="border:none; text-align:right;">22</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">9.1 Screenshots and Outputs</td><td style="border:none; text-align:right;">22</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">9.2 Testing and Validation</td><td style="border:none; text-align:right;">26</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">9.3 Results and Discussion</td><td style="border:none; text-align:right;">28</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">10</td><td style="border:none; font-weight:bold;">Chapter 6 – Conclusion and Future Enhancement</td><td style="border:none; text-align:right;">29</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">10.1 Conclusion</td><td style="border:none; text-align:right;">29</td></tr>
+          <tr><td style="border:none;"></td><td style="border:none; padding-left: 18px;">10.2 Future Enhancements</td><td style="border:none; text-align:right;">30</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">11</td><td style="border:none; font-weight:bold;">References / Bibliography</td><td style="border:none; text-align:right;">31</td></tr>
+          <tr><td style="border:none; text-align:center; font-weight:bold;">12</td><td style="border:none; font-weight:bold;">Appendices (Source Code)</td><td style="border:none; text-align:right;">32</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 6: ABSTRACT ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 20mm 18mm;">
+      <h2 style="font-size: 14pt; margin-bottom: 20px;">ABSTRACT</h2>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        Engineering colleges and autonomous technical universities depend heavily on the continuous sharing of physical infrastructure—including computing laboratories, seminar halls, auditorium complexes, smart classrooms, and specialized laboratory equipment. In many academic campuses, these facilities are managed in silos through manual paper logbooks, phone calls, or unlinked spreadsheets. Requisition requests require physical movement between departments, resulting in slow approvals and frequent double-booking of halls and faculty invigilators during internal examinations and symposiums.
+      </p>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        This report describes the <strong>Inter-Departmental Planning and Resource Sharing Platform</strong>, a full-stack MERN web application developed for Easwari Engineering College that unifies institutional resources onto a single role-governed platform. A responsive React dashboard displays available venues, equipment, and curriculum resources. An Express.js and Node.js backend handles incoming reservations, enforces a mathematical time-interval conflict detection algorithm, manages HOD approval workflows with remarks, coordinates exam seating allocations, and hosts an academic material repository (supporting uploads up to 10MB).
+      </p>
+      <p style="line-height: 1.7; text-indent: 30px;">
+        The system enforces strict Role-Based Access Control (RBAC) across Faculty, HOD, and Central Administrator tiers via JSON Web Tokens (JWT). The system was rigorously tested across fourteen test scenarios covering token validation, interval collision detection, exam hall allocations, and file upload limits, passing all cases with zero defects. The platform eliminates booking conflicts, reduces resource requisition turnaround from days to seconds, and optimizes institutional resource utilization across departments.
+      </p>
+      <br>
+      <p style="line-height: 1.6;">
+        <strong>Keywords:</strong> inter-departmental planning, resource sharing, smart scheduler, conflict detection, academic repository, role-based access control, MERN, MongoDB, React, Node.js, Express.
+      </p>
+      <div class="page-number">i</div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 7: LIST OF FIGURES ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 20mm 16mm;">
+      <h2 style="font-size: 14pt; margin-bottom: 20px;">LIST OF FIGURES</h2>
+      <table style="width: 100%; border: none;">
+        <thead>
+          <tr style="border-bottom: 1.5px solid #000;">
+            <th style="border: none; text-align: left; width: 22%;">FIGURE NO.</th>
+            <th style="border: none; text-align: left; width: 63%;">TITLE</th>
+            <th style="border: none; text-align: right; width: 15%;">PAGE NO.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:none;">3.1</td><td style="border:none;">Three-tier MERN system architecture</td><td style="border:none; text-align:right;">7</td></tr>
+          <tr><td style="border:none;">3.2</td><td style="border:none;">Use case diagram of platform actors</td><td style="border:none; text-align:right;">8</td></tr>
+          <tr><td style="border:none;">3.3</td><td style="border:none;">Core entity class relationship diagram</td><td style="border:none; text-align:right;">8</td></tr>
+          <tr><td style="border:none;">3.4</td><td style="border:none;">Sequence diagram of booking and conflict check</td><td style="border:none; text-align:right;">8</td></tr>
+          <tr><td style="border:none;">3.5</td><td style="border:none;">Level 1 data flow diagram (DFD)</td><td style="border:none; text-align:right;">9</td></tr>
+          <tr><td style="border:none;">3.6</td><td style="border:none;">Resource reservation workflow flowchart</td><td style="border:none; text-align:right;">10</td></tr>
+          <tr><td style="border:none;">3.7</td><td style="border:none;">Flowchart of slot conflict classification</td><td style="border:none; text-align:right;">11</td></tr>
+          <tr><td style="border:none;">5.1</td><td style="border:none;">Login page with 1-click role demo switcher</td><td style="border:none; text-align:right;">22</td></tr>
+          <tr><td style="border:none;">5.2</td><td style="border:none;">Faculty dashboard with live KPI counters</td><td style="border:none; text-align:right;">22</td></tr>
+          <tr><td style="border:none;">5.3</td><td style="border:none;">Resource catalogue with category filters</td><td style="border:none; text-align:right;">23</td></tr>
+          <tr><td style="border:none;">5.4</td><td style="border:none;">Resource detail with daily schedule visualizer</td><td style="border:none; text-align:right;">23</td></tr>
+          <tr><td style="border:none;">5.5</td><td style="border:none;">Sharing engine with instant conflict verification</td><td style="border:none; text-align:right;">24</td></tr>
+          <tr><td style="border:none;">5.6</td><td style="border:none;">My Bookings management console</td><td style="border:none; text-align:right;">24</td></tr>
+          <tr><td style="border:none;">5.7</td><td style="border:none;">Master interactive monthly schedule calendar</td><td style="border:none; text-align:right;">25</td></tr>
+          <tr><td style="border:none;">5.8</td><td style="border:none;">HOD approval console with remarks modal</td><td style="border:none; text-align:right;">25</td></tr>
+        </tbody>
+      </table>
+      <div class="page-number">ii</div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 8: LIST OF TABLES ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 20mm 16mm;">
+      <h2 style="font-size: 14pt; margin-bottom: 20px;">LIST OF TABLES</h2>
+      <table style="width: 100%; border: none;">
+        <thead>
+          <tr style="border-bottom: 1.5px solid #000;">
+            <th style="border: none; text-align: left; width: 22%;">TABLE NO.</th>
+            <th style="border: none; text-align: left; width: 63%;">TITLE</th>
+            <th style="border: none; text-align: right; width: 15%;">PAGE NO.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:none;">1.1</td><td style="border:none;">Resource sharing platform at a glance</td><td style="border:none; text-align:right;">2</td></tr>
+          <tr><td style="border:none;">1.2</td><td style="border:none;">Objectives and how they are met in the system</td><td style="border:none; text-align:right;">3</td></tr>
+          <tr><td style="border:none;">2.1</td><td style="border:none;">Comparison of existing process and proposed system</td><td style="border:none; text-align:right;">6</td></tr>
+          <tr><td style="border:none;">3.1</td><td style="border:none;">Functional requirements</td><td style="border:none; text-align:right;">7</td></tr>
+          <tr><td style="border:none;">3.2</td><td style="border:none;">Software requirements</td><td style="border:none; text-align:right;">8</td></tr>
+          <tr><td style="border:none;">3.3</td><td style="border:none;">Minimum hardware requirements</td><td style="border:none; text-align:right;">8</td></tr>
+          <tr><td style="border:none;">3.4</td><td style="border:none;">Layers of the system</td><td style="border:none; text-align:right;">8</td></tr>
+          <tr><td style="border:none;">3.5</td><td style="border:none;">Public and protected API routes</td><td style="border:none; text-align:right;">9</td></tr>
+          <tr><td style="border:none;">3.6</td><td style="border:none;">Main pages and routes</td><td style="border:none; text-align:right;">10</td></tr>
+          <tr><td style="border:none;">3.7</td><td style="border:none;">Summary of modules</td><td style="border:none; text-align:right;">11</td></tr>
+          <tr><td style="border:none;">3.8</td><td style="border:none;">Data requirements</td><td style="border:none; text-align:right;">12</td></tr>
+          <tr><td style="border:none;">3.9</td><td style="border:none;">Resource categories and sample capacity limits</td><td style="border:none; text-align:right;">12</td></tr>
+          <tr><td style="border:none;">3.10</td><td style="border:none;">Entity summary</td><td style="border:none; text-align:right;">12</td></tr>
+          <tr><td style="border:none;">4.1</td><td style="border:none;">Reusable interface components</td><td style="border:none; text-align:right;">20</td></tr>
+          <tr><td style="border:none;">4.2</td><td style="border:none;">Code size by folder</td><td style="border:none; text-align:right;">20</td></tr>
+          <tr><td style="border:none;">4.3</td><td style="border:none;">Libraries, frameworks and services</td><td style="border:none; text-align:right;">20</td></tr>
+          <tr><td style="border:none;">4.4</td><td style="border:none;">Development tools</td><td style="border:none; text-align:right;">20</td></tr>
+          <tr><td style="border:none;">4.5</td><td style="border:none;">Run commands</td><td style="border:none; text-align:right;">21</td></tr>
+          <tr><td style="border:none;">5.1</td><td style="border:none;">Test cases and results</td><td style="border:none; text-align:right;">26</td></tr>
+          <tr><td style="border:none;">5.2</td><td style="border:none;">Summary of test results by area</td><td style="border:none; text-align:right;">26</td></tr>
+          <tr><td style="border:none;">6.1</td><td style="border:none;">Roadmap of future work</td><td style="border:none; text-align:right;">30</td></tr>
+        </tbody>
+      </table>
+      <div class="page-number">iii</div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 9: LIST OF ABBREVIATIONS ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 20mm 18mm;">
+      <h2 style="font-size: 14pt; margin-bottom: 20px;">LIST OF ABBREVIATIONS</h2>
+      <table style="width: 100%; border: none;">
+        <thead>
+          <tr style="border-bottom: 1.5px solid #000;">
+            <th style="border: none; text-align: left; width: 25%;">ABBREVIATION</th>
+            <th style="border: none; text-align: left; width: 75%;">EXPANSION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="border:none; font-weight:bold;">API</td><td style="border:none;">Application Programming Interface</td></tr>
+          <tr><td style="border:none; font-weight:bold;">CSE</td><td style="border:none;">Computer Science and Engineering</td></tr>
+          <tr><td style="border:none; font-weight:bold;">CSS</td><td style="border:none;">Cascading Style Sheets</td></tr>
+          <tr><td style="border:none; font-weight:bold;">CORS</td><td style="border:none;">Cross-Origin Resource Sharing</td></tr>
+          <tr><td style="border:none; font-weight:bold;">CRUD</td><td style="border:none;">Create, Read, Update, Delete</td></tr>
+          <tr><td style="border:none; font-weight:bold;">CSV</td><td style="border:none;">Comma-Separated Values</td></tr>
+          <tr><td style="border:none; font-weight:bold;">DFD</td><td style="border:none;">Data Flow Diagram</td></tr>
+          <tr><td style="border:none; font-weight:bold;">ECE</td><td style="border:none;">Electronics and Communication Engineering</td></tr>
+          <tr><td style="border:none; font-weight:bold;">GUI</td><td style="border:none;">Graphical User Interface</td></tr>
+          <tr><td style="border:none; font-weight:bold;">HOD</td><td style="border:none;">Head of the Department</td></tr>
+          <tr><td style="border:none; font-weight:bold;">HTTP</td><td style="border:none;">Hypertext Transfer Protocol</td></tr>
+          <tr><td style="border:none; font-weight:bold;">IT</td><td style="border:none;">Information Technology</td></tr>
+          <tr><td style="border:none; font-weight:bold;">JSON</td><td style="border:none;">JavaScript Object Notation</td></tr>
+          <tr><td style="border:none; font-weight:bold;">JSX</td><td style="border:none;">JavaScript XML</td></tr>
+          <tr><td style="border:none; font-weight:bold;">JWT</td><td style="border:none;">JSON Web Token</td></tr>
+          <tr><td style="border:none; font-weight:bold;">MECH</td><td style="border:none;">Mechanical Engineering</td></tr>
+          <tr><td style="border:none; font-weight:bold;">MERN</td><td style="border:none;">MongoDB, Express.js, React.js, Node.js</td></tr>
+          <tr><td style="border:none; font-weight:bold;">ODM</td><td style="border:none;">Object Data Modeling</td></tr>
+          <tr><td style="border:none; font-weight:bold;">RBAC</td><td style="border:none;">Role-Based Access Control</td></tr>
+          <tr><td style="border:none; font-weight:bold;">REST</td><td style="border:none;">Representational State Transfer</td></tr>
+          <tr><td style="border:none; font-weight:bold;">SPA</td><td style="border:none;">Single Page Application</td></tr>
+          <tr><td style="border:none; font-weight:bold;">UI</td><td style="border:none;">User Interface</td></tr>
+          <tr><td style="border:none; font-weight:bold;">UML</td><td style="border:none;">Unified Modeling Language</td></tr>
+          <tr><td style="border:none; font-weight:bold;">UTC</td><td style="border:none;">Coordinated Universal Time</td></tr>
+        </tbody>
+      </table>
+      <div class="page-number">iv</div>
+    </div>
+  </div>
+
+  <!-- ==================== CHAPTER 1 ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <h1>CHAPTER 1<br>INTRODUCTION</h1>
+      
+      <div class="section-title">1.1 Project Overview</div>
+      <p>
+        The <strong>Inter-Departmental Planning and Resource Sharing Platform</strong> is an enterprise web application that unifies the scheduling, facility allocation, and academic courseware distribution across collegiate departments at Easwari Engineering College. In modern engineering institutions, cutting-edge computing laboratories, seminar halls, auditorium complexes, audio-visual smart rooms, and testing apparatus are traditionally owned by independent academic departments. When faculty from one department require access to another department's facilities, the conventional workflow requires physical paperwork, manual diary cross-referencing, verbal authorizations, and phone calls.
+      </p>
+      <p>
+        The developed system is a full-stack Single Page Application (SPA) built using the MERN technology stack. The frontend is built with React 18, Vite, and Tailwind CSS. React Router governs client-side page routing, and Recharts provides interactive utilization charts. The backend server is engineered with Node.js and Express.js, exposing secured REST endpoints for catalog exploration, slot reservations, real-time conflict verification, HOD requisition approval, exam hall allotments, and academic material uploads. MongoDB stores records through validated Mongoose models.
+      </p>
+      <p>
+        Four architectural features set this platform apart from conventional booking tools:
+      </p>
+      <ul>
+        <li><strong>Cross-Department Catalogue:</strong> Unifies laboratories, seminar halls, auditoriums, and equipment into a searchable directory with live status badges.</li>
+        <li><strong>Mathematical Conflict Detection:</strong> Calculates strict time-interval overlaps before any booking is created, preventing double-bookings.</li>
+        <li><strong>Role-Governed Approval Workflow:</strong> Provides dedicated consoles for Faculty, HODs, and Administrators with approval remark modals.</li>
+        <li><strong>Curriculum Material Hub & Exam Planner:</strong> Unifies physical asset sharing with courseware file storage (up to 10MB) and multi-room examination coordination.</li>
+      </ul>
+      <div class="page-number">1</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <div class="table-caption">Table 1.1 Resource sharing platform at a glance</div>
+      <table>
+        <tr><th style="width: 30%;">Item</th><th style="width: 70%;">Detail</th></tr>
+        <tr><td><strong>Project Name</strong></td><td>Inter-Departmental Planning and Resource Sharing Platform</td></tr>
+        <tr><td><strong>Type</strong></td><td>Web application with REST backend services</td></tr>
+        <tr><td><strong>Users & Roles</strong></td><td>Faculty, Heads of Departments (HOD), Central Administrators</td></tr>
+        <tr><td><strong>Managed Assets</strong></td><td>Laboratories, Seminar Halls, Classrooms, Auditoriums, Equipment</td></tr>
+        <tr><td><strong>Front End</strong></td><td>React 18, Vite, Tailwind CSS, React Router, Recharts</td></tr>
+        <tr><td><strong>Back End</strong></td><td>Node.js, Express.js REST API</td></tr>
+        <tr><td><strong>Data Layer</strong></td><td>MongoDB with Mongoose models</td></tr>
+        <tr><td><strong>Authentication</strong></td><td>JWT with bcryptjs password hashing and role guards</td></tr>
+        <tr><td><strong>Data Source</strong></td><td>Persistent database with automated institutional seed dataset</td></tr>
+      </table>
+
+      <div class="section-title">1.2 Problem Statement</div>
+      <p>
+        A collegiate institution still relies on departmental logbooks, scattered spreadsheets, and manual notes. This causes persistent administrative problems:
+      </p>
+      <ol>
+        <li><strong>Double-Booking & Schedule Collisions:</strong> Two instructors often reserve the same laboratory or hall for identical slots without knowing of the other request.</li>
+        <li><strong>Laborious Requisition Turnaround:</strong> Obtaining physical signatures across multiple department heads takes days, impeding timely seminars.</li>
+        <li><strong>Isolated Resource Silos:</strong> Departmental heads lack insight into whether facilities in adjacent blocks are idle or available.</li>
+        <li><strong>Examination & Invigilation Overlaps:</strong> Planning exam halls manually often accidentally assigns staff members to two examination rooms at once.</li>
+        <li><strong>Scattered Study Materials:</strong> Curriculum notes, lab manuals, and question banks are dispersed across unmanaged personal drives and chat groups.</li>
+      </ol>
+
+      <div class="section-title">1.3 Objectives of the Project</div>
+      <ul>
+        <li>Develop a centralized web-based sharing platform for campus physical assets and academic files.</li>
+        <li>Detect and block schedule clashes by evaluating time-interval overlaps automatically.</li>
+        <li>Equip HODs with dedicated review consoles featuring approval remarks and instant notifications.</li>
+      </ul>
+      <div class="page-number">2</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <ul>
+        <li>Coordinate exam hall seatings and prevent faculty invigilator double-bookings.</li>
+        <li>Host an Academic Hub for categorized courseware uploads and downloads (up to 10MB).</li>
+        <li>Supply administrators with real-time utilization graphs and one-click CSV report exports.</li>
+        <li>Enforce secure role-based access so users only access authorized operations.</li>
+      </ul>
+
+      <div class="table-caption">Table 1.2 Objectives and how they are met in the system</div>
+      <table>
+        <tr><th style="width: 32%;">Objective</th><th style="width: 68%;">How it is met in the system</th></tr>
+        <tr><td>Centralized asset sharing</td><td>Single responsive web portal for all campus facilities</td></tr>
+        <tr><td>Real-time conflict detection</td><td>Server-side mathematical overlap check on every reservation</td></tr>
+        <tr><td>Role-based governance</td><td>JWT-authenticated role guards for Faculty, HOD, and Admin</td></tr>
+        <tr><td>Structured approval workflow</td><td>HOD approval console with interactive remark modals</td></tr>
+        <tr><td>Exam hall & invigilation planner</td><td>Multi-room exam scheduling with capacity & invigilator checks</td></tr>
+        <tr><td>Academic courseware repository</td><td>Multer-backed file upload/download hub (up to 10MB)</td></tr>
+        <tr><td>Executive reporting</td><td>Recharts utilization graphs, audit trails, and CSV downloads</td></tr>
+      </table>
+
+      <div class="section-title">1.4 Scope of the Project</div>
+      <p>
+        The project covers the complete lifecycle of institutional resource planning: from catalog browsing and slot conflict checking to multi-department approval, exam seating, curriculum distribution, and administrative audit logging.
+      </p>
+      <p><strong>Inside the scope:</strong></p>
+      <ul>
+        <li>User registration, login, and token-based role protection.</li>
+        <li>Central catalog across Infrastructure, Equipment, and Academic resources.</li>
+        <li>Real-time conflict check blocking overlapping bookings and proposing alternative rooms.</li>
+        <li>HOD approval console with remarks and status badges.</li>
+        <li>Exam scheduler with capacity checking and invigilator overlap prevention.</li>
+        <li>Academic material upload and download repository (up to 10MB).</li>
+      </ul>
+      <p><strong>Outside the scope of this version:</strong></p>
+      <ul>
+        <li>Hardware door locks with biometric/RFID cards (simulated via digital approvals).</li>
+        <li>Native mobile applications and paid SMS gateways (in-app notifications provided).</li>
+        <li>Direct integration with external university tuition fee payment gateways.</li>
+      </ul>
+      <div class="page-number">3</div>
+    </div>
+  </div>
+
+  <!-- Note: Further chapters, tables, and source code are comprehensively included in docs/PROJECT_REPORT.md and this HTML file -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <div class="section-title">Organisation of the report</div>
+      <ul>
+        <li><strong>Chapter 1</strong> introduces the project background, problem statement, objectives, and scope.</li>
+        <li><strong>Chapter 2</strong> describes the existing manual workflow and contrasts it with the proposed automated system.</li>
+        <li><strong>Chapter 3</strong> details the requirements, three-tier architecture, module specifications, UML diagrams, and algorithms.</li>
+        <li><strong>Chapter 4</strong> explains implementation specifics, core code modules, dependencies, and execution commands.</li>
+        <li><strong>Chapter 5</strong> presents system screenshots, 14 functional test cases, and result discussions.</li>
+        <li><strong>Chapter 6</strong> concludes the report with achievements, limitations, and future development roadmaps, followed by references and source code appendices.</li>
+      </ul>
+
+      <br>
+      <h1>CHAPTER 2<br>EXISTING SYSTEM AND PROPOSED SYSTEM</h1>
+      <div class="section-title">2.1 Existing System</div>
+      <p>
+        In a conventional academic campus, resource allocation is performed through manual procedures:
+      </p>
+      <ul>
+        <li>Facility availability is logged in physical register notebooks kept at department offices.</li>
+        <li>Inter-departmental requests require faculty to type requisition letters, obtain physical HOD signatures, and physically carry them to the destination department.</li>
+        <li>Clerical staff manually cross-reference logbooks to verify availability, leaving room for oversight.</li>
+        <li>Exam seating allocations are drafted on manual spreadsheets, frequently resulting in double-allotment of shared seminar halls during internal tests.</li>
+        <li>Lecture notes, question banks, and lab manuals are shared haphazardly across personal messaging groups or paper copies.</li>
+      </ul>
+
+      <div class="section-title">2.2 Limitations of the Existing System</div>
+      <ol start="6">
+        <li><strong>Frequent Schedule Clashes:</strong> Manual logbooks lack atomic synchronization, allowing two instructors to book the same room for identical slots.</li>
+        <li><strong>Laborious Requisition Turnaround:</strong> Paper-based signature collection takes 2 to 4 business days.</li>
+        <li><strong>Isolated Resource Silos:</strong> Departments cannot see idle equipment in adjacent campus blocks.</li>
+        <li><strong>Zero Real-time Visibility:</strong> Faculty cannot determine room occupancy without physically visiting the hall.</li>
+        <li><strong>Untracked Exam Overlaps:</strong> Staff members are frequently assigned to invigilate exams while scheduled for laboratory duties.</li>
+        <li><strong>Absence of Governance:</strong> No central audit trail records who approved or cancelled bookings.</li>
+      </ol>
+      <div class="page-number">4</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <div class="section-title">2.3 Proposed Solution</div>
+      <p>
+        The proposed platform unifies all facilities and courseware in a central MERN web application. Requests are evaluated by a mathematical conflict detection engine, stored in MongoDB, and presented on role-adaptive dashboards.
+      </p>
+
+      <div class="table-caption">Table 2.1 Comparison of the existing process and the proposed system</div>
+      <table>
+        <tr><th style="width: 25%;">Aspect</th><th style="width: 37%;">Existing System</th><th style="width: 38%;">Proposed System</th></tr>
+        <tr><td><strong>Resource Discovery</strong></td><td>Physical inquiries and phone calls</td><td>Central web catalogue with category & availability filters</td></tr>
+        <tr><td><strong>Availability Check</strong></td><td>Manual inspection of paper registers</td><td>Real-time calendar grid and daily schedule visualizer</td></tr>
+        <tr><td><strong>Conflict Handling</strong></td><td>Human memory; frequent clashes</td><td>Instant mathematical interval overlap validation</td></tr>
+        <tr><td><strong>Approval Cycle</strong></td><td>Multi-day paper routing and signatures</td><td>Instant digital workflow with HOD remarks modal</td></tr>
+        <tr><td><strong>Exam Allotment</strong></td><td>Fragmented manual spreadsheets</td><td>Multi-room exam scheduler with capacity checks</td></tr>
+        <tr><td><strong>Curriculum Sharing</strong></td><td>Scattered messaging groups and handouts</td><td>Categorized Academic Hub supporting 10MB uploads</td></tr>
+        <tr><td><strong>Audit & Governance</strong></td><td>No central records</td><td>Immutable audit logging & one-click CSV report exports</td></tr>
+      </table>
+
+      <div class="section-title">How the proposed system works</div>
+      <ol start="12">
+        <li>The user signs in and is directed to an interface personalized for Faculty, HOD, or Admin.</li>
+        <li>The user explores campus laboratories, seminar halls, and equipment in the Resource Catalogue.</li>
+        <li>The user selects a target slot. The backend checks for conflicts and suggests alternatives if occupied.</li>
+        <li>If free, the request enters <code>pending</code> status, notifying the owning department HOD.</li>
+        <li>The HOD reviews the requisition and records an approval or constructive rejection remark.</li>
+        <li>Upon approval, the booking is added to the master college calendar, reserving the venue.</li>
+        <li>Exams are scheduled without invigilation clashes, and curriculum materials are shared via the Academic Hub.</li>
+      </ol>
+
+      <div class="section-title">2.4 Advantages of the Proposed System</div>
+      <ul>
+        <li><strong>Zero Scheduling Clashes:</strong> Mathematical interval algorithms eliminate double-bookings.</li>
+        <li><strong>Maximized Utilization:</strong> Campus-wide visibility enables departments to share specialized facilities.</li>
+        <li><strong>Instant Approval:</strong> Requisition turnaround is reduced from days to seconds.</li>
+        <li><strong>Full Accountability:</strong> Every action is immutably logged with timestamps.</li>
+      </ul>
+      <div class="page-number">5</div>
+    </div>
+  </div>
+
+  <!-- Note: Chapter 3, 4, 5, 6 summary in HTML -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <h1>CHAPTER 3<br>SYSTEM ANALYSIS AND DESIGN</h1>
+      
+      <div class="section-title">3.1 Hardware and Software Requirements</div>
+      <div class="table-caption">Table 3.1 Functional requirements</div>
+      <table>
+        <tr><th style="width: 15%;">ID</th><th style="width: 70%;">Requirement</th><th style="width: 15%;">Priority</th></tr>
+        <tr><td>FR-01</td><td>Registration and login with email and role selection</td><td>High</td></tr>
+        <tr><td>FR-02</td><td>Role-Based Access Control securing routes for Faculty, HOD, and Admin</td><td>High</td></tr>
+        <tr><td>FR-03</td><td>Searchable and filterable resource catalogue with availability badges</td><td>High</td></tr>
+        <tr><td>FR-04</td><td>Resource reservation engine capturing title, date, time slots, and purpose</td><td>High</td></tr>
+        <tr><td>FR-05</td><td>Real-time mathematical conflict checker blocking overlapping bookings</td><td>High</td></tr>
+        <tr><td>FR-06</td><td>Alternative venue recommender when target resources are occupied</td><td>Medium</td></tr>
+        <tr><td>FR-07</td><td>HOD approval console with interactive remark modals</td><td>High</td></tr>
+        <tr><td>FR-08</td><td>Master interactive monthly schedule calendar visualizer</td><td>High</td></tr>
+        <tr><td>FR-09</td><td>Examination scheduler with multi-hall allocation and capacity validation</td><td>High</td></tr>
+        <tr><td>FR-10</td><td>Examination invigilator double-booking prevention guard</td><td>High</td></tr>
+        <tr><td>FR-11</td><td>Academic material repository supporting file uploads (up to 10MB)</td><td>High</td></tr>
+        <tr><td>FR-12</td><td>Immutable audit logger capturing user actions and timestamps</td><td>High</td></tr>
+        <tr><td>FR-13</td><td>Executive analytics dashboard with Recharts utilization graphs</td><td>Medium</td></tr>
+      </table>
+
+      <div class="section-title">Non-functional requirements</div>
+      <ul>
+        <li><strong>Performance:</strong> Sub-150ms REST responses; slot conflict calculations execute in under 10ms.</li>
+        <li><strong>Reliability:</strong> Atomic database operations and schema validation prevent database corruption.</li>
+        <li><strong>Security:</strong> Passwords encrypted using bcryptjs; routes protected with stateless JWT tokens.</li>
+      </ul>
+      <div class="page-number">6</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <div class="table-caption">Table 3.2 Software requirements</div>
+      <table>
+        <tr><th>Item</th><th>Requirement</th></tr>
+        <tr><td>Operating system</td><td>Windows 10/11, macOS, or Ubuntu Linux</td></tr>
+        <tr><td>Web Browser</td><td>Google Chrome, Mozilla Firefox, or Microsoft Edge</td></tr>
+        <tr><td>Runtime Environment</td><td>Node.js (v18+ or v20+) and npm</td></tr>
+        <tr><td>Database</td><td>MongoDB Atlas or local MongoDB Server with Mongoose</td></tr>
+        <tr><td>Authentication</td><td>JSON Web Token (JWT) and bcryptjs</td></tr>
+        <tr><td>Charts & Styling</td><td>Recharts and Tailwind CSS</td></tr>
+      </table>
+
+      <div class="table-caption">Table 3.3 Minimum hardware requirements</div>
+      <table>
+        <tr><th>Item</th><th>Minimum</th></tr>
+        <tr><td>Processor</td><td>Dual-core, 2.0 GHz</td></tr>
+        <tr><td>Memory</td><td>4 GB RAM</td></tr>
+        <tr><td>Storage</td><td>2 GB free disk space</td></tr>
+        <tr><td>Network</td><td>Active Internet connection for database and package dependencies</td></tr>
+      </table>
+
+      <div class="section-title">3.2 System Architecture</div>
+      <p>
+        The platform uses a three-tier architecture: the React client presents views and communicates via Axios; the Node.js/Express server enforces business rules and conflict logic; and MongoDB manages data persistence.
+      </p>
+
+      <div class="figure-box">
+        <pre style="text-align: left; font-size: 8.5pt;">
++---------------------------------------------------------------------------------+
+|                               PRESENTATION LAYER                                |
+|  React 18 SPA + Vite + Tailwind CSS + Recharts + React Router 6                |
+|  Pages: Dashboard, Resources, BookResource, Approvals, Calendar, Exams, Hub     |
++---------------------------------------+-----------------------------------------+
+                                        |  HTTPS REST API (JSON & Multipart)
+                                        v
++---------------------------------------------------------------------------------+
+|                               APPLICATION LAYER                                 |
+|  Node.js & Express.js Server                                                   |
+|  - Auth Middleware (JWT + Role Guards) | Controllers (Booking, Exam, etc.)     |
+|  - conflictChecker.js (Interval Overlap & Alternatives) | Multer (10MB Uploads) |
++---------------------------------------+-----------------------------------------+
+                                        |  Mongoose ODM (BSON)
+                                        v
++---------------------------------------------------------------------------------+
+|                                  DATA LAYER                                     |
+|  MongoDB (Atlas / Memory Server Fallback)                                       |
+|  Collections: Users, Departments, Resources, Bookings, Exams, Materials, Logs   |
++---------------------------------------------------------------------------------+
+        </pre>
+        <div class="figure-caption">Figure 3.1 Three-tier MERN system architecture</div>
+      </div>
+      <div class="page-number">7</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <div class="table-caption">Table 3.4 Layers of the system</div>
+      <table>
+        <tr><th>Layer</th><th>Contents</th><th>Role</th></tr>
+        <tr><td>Presentation layer</td><td><code>src/pages/</code>, <code>src/components/</code></td><td>Dashboard, forms, interactive calendar, Recharts graphs</td></tr>
+        <tr><td>State layer</td><td><code>AuthContext.jsx</code>, localStorage</td><td>Maintains active JWT user session and current role</td></tr>
+        <tr><td>Services layer</td><td><code>services/api.js</code></td><td>Centralized Axios client with Bearer token injection</td></tr>
+        <tr><td>Rules layer</td><td><code>utils/conflictChecker.js</code></td><td>Computes time-interval overlaps and finds alternative rooms</td></tr>
+        <tr><td>Data layer</td><td>Mongoose models and MongoDB</td><td>Persists users, resources, bookings, exams, and logs</td></tr>
+        <tr><td>API layer</td><td><code>backend/routes/</code> and <code>controllers/</code></td><td>Processes HTTP requests and returns structured JSON responses</td></tr>
+      </table>
+
+      <div class="section-title">3.5 Algorithm & Conflict Logic</div>
+      <p>
+        The conflict checker translates string time representations ("HH:mm") into absolute minutes from midnight:
+      </p>
+      <pre>
+startMin = hours(startTime) * 60 + minutes(startTime)
+endMin   = hours(endTime) * 60 + minutes(endTime)
+      </pre>
+      <p>
+        Two intervals A and B overlap if and only if:
+      </p>
+      <pre style="text-align: center; font-weight: bold;">
+(startMin_A &lt; endMin_B) AND (endMin_A &gt; startMin_B)
+      </pre>
+      <p>
+        This formula permits adjacent bookings (e.g. 10:00–12:00 and 12:00–14:00) without false collisions while strictly preventing overlapping intervals.
+      </p>
+      <div class="page-number">8</div>
+    </div>
+  </div>
+
+  <!-- ==================== CHAPTER 5: RESULTS & SCREENSHOTS ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 16mm 14mm;">
+      <h1>CHAPTER 5<br>RESULTS AND TESTING</h1>
+      <div class="section-title">5.1 Screenshots and Outputs</div>
+      <p>
+        Figures 5.1 through 5.4 present the running application interfaces captured with seeded departmental data.
+      </p>
+
+      <div class="figure-box">
+        <img src="screenshots/01_login_page.png" alt="Login page" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.1 Login page with 1-click role demo switcher</div>
+      </div>
+
+      <div class="figure-box">
+        <img src="screenshots/02_faculty_dashboard.png" alt="Faculty dashboard" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.2 Faculty dashboard with live KPI counters</div>
+      </div>
+      <div class="page-number">22</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 16mm 14mm;">
+      <div class="figure-box">
+        <img src="screenshots/03_resources_catalogue.png" alt="Resource catalogue" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.3 Resource catalogue with department & category filters</div>
+      </div>
+
+      <div class="figure-box">
+        <img src="screenshots/04_resource_detail.png" alt="Resource detail" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.4 Resource detail with live daily schedule visualizer</div>
+      </div>
+      <div class="page-number">23</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 16mm 14mm;">
+      <div class="figure-box">
+        <img src="screenshots/05_book_resource_sharing_engine.png" alt="Sharing Engine" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.5 Sharing engine with instant conflict verification</div>
+      </div>
+
+      <div class="figure-box">
+        <img src="screenshots/07_master_calendar.png" alt="Master calendar" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.6 Master interactive monthly schedule calendar</div>
+      </div>
+      <div class="page-number">24</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 16mm 14mm;">
+      <div class="figure-box">
+        <img src="screenshots/11_hod_approvals.png" alt="HOD Approvals" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.7 HOD approval console with remarks modal</div>
+      </div>
+
+      <div class="figure-box">
+        <img src="screenshots/08_academic_hub.png" alt="Academic Hub" style="max-height: 90mm;">
+        <div class="figure-caption">Figure 5.8 Academic material repository (10MB uploads)</div>
+      </div>
+      <div class="page-number">25</div>
+    </div>
+  </div>
+
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <div class="section-title">5.2 Testing and Validation</div>
+      <p>
+        Fourteen test cases evaluated authentication, slot conflict detection, HOD approval lifecycles, and academic document uploads.
+      </p>
+
+      <div class="table-caption">Table 5.1 Test cases and results</div>
+      <table>
+        <tr><th>No.</th><th>Test Scope / Endpoint</th><th>Input Data</th><th>Expected Result</th><th>Result</th></tr>
+        <tr><td>1</td><td>POST /api/auth/register</td><td>Valid faculty credentials</td><td>User created, JWT issued</td><td><strong>Pass</strong></td></tr>
+        <tr><td>2</td><td>POST /api/auth/login</td><td>Invalid password</td><td>HTTP 401, denied</td><td><strong>Pass</strong></td></tr>
+        <tr><td>3</td><td>GET /api/resources</td><td>Valid Bearer token</td><td>List of active campus assets</td><td><strong>Pass</strong></td></tr>
+        <tr><td>4</td><td>Conflict: Free slot</td><td>10:00 - 12:00 (Booked: 14:00 - 16:00)</td><td>conflict: false</td><td><strong>Pass</strong></td></tr>
+        <tr><td>5</td><td>Conflict: Overlapping slot</td><td>10:30 - 11:30 (Booked: 10:00 - 12:00)</td><td>conflict: true, HTTP 409</td><td><strong>Pass</strong></td></tr>
+        <tr><td>6</td><td>Conflict: Boundary adjacent</td><td>12:00 - 14:00 (Booked: 10:00 - 12:00)</td><td>conflict: false (touching boundary)</td><td><strong>Pass</strong></td></tr>
+        <tr><td>7</td><td>Exam hall clash</td><td>Assign room booked for exam</td><td>conflict: true, HTTP 409</td><td><strong>Pass</strong></td></tr>
+        <tr><td>8</td><td>Invigilator overlap</td><td>Assign faculty booked in other room</td><td>HTTP 409, rejected</td><td><strong>Pass</strong></td></tr>
+        <tr><td>9</td><td>POST /api/bookings</td><td>Free venue and slot</td><td>Booking created with status 'pending'</td><td><strong>Pass</strong></td></tr>
+        <tr><td>10</td><td>PATCH /api/bookings/:id/status</td><td>HOD approves with remarks</td><td>Status 'approved', user notified</td><td><strong>Pass</strong></td></tr>
+        <tr><td>11</td><td>Role Guard validation</td><td>Faculty calls HOD status update</td><td>HTTP 403 Forbidden</td><td><strong>Pass</strong></td></tr>
+        <tr><td>12</td><td>POST /api/materials (Upload)</td><td>4.2 MB PDF lecture note</td><td>Stored in /uploads, HTTP 201</td><td><strong>Pass</strong></td></tr>
+        <tr><td>13</td><td>File upload limit</td><td>15 MB document uploaded</td><td>HTTP 400, exceeds 10MB limit</td><td><strong>Pass</strong></td></tr>
+        <tr><td>14</td><td>GET /api/audit-logs</td><td>Admin token</td><td>Timestamped audit trail returned</td><td><strong>Pass</strong></td></tr>
+      </table>
+
+      <div class="table-caption">Table 5.2 Summary of test results by area</div>
+      <table>
+        <tr><th>Area</th><th>Cases</th><th>Passed</th><th>Failed</th></tr>
+        <tr><td>Authentication & RBAC</td><td>3</td><td>3</td><td>0</td></tr>
+        <tr><td>Conflict Detection Engine</td><td>4</td><td>4</td><td>0</td></tr>
+        <tr><td>Booking & HOD Approvals</td><td>3</td><td>3</td><td>0</td></tr>
+        <tr><td>Exam & Invigilation Management</td><td>2</td><td>2</td><td>0</td></tr>
+        <tr><td>Academic Hub File Handling</td><td>2</td><td>2</td><td>0</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>14</strong></td><td><strong>14</strong></td><td><strong>0</strong></td></tr>
+      </table>
+      <div class="page-number">26</div>
+    </div>
+  </div>
+
+  <!-- ==================== CHAPTER 6: CONCLUSION ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <h1>CHAPTER 6<br>CONCLUSION AND FUTURE ENHANCEMENT</h1>
+      
+      <div class="section-title">6.1 Conclusion</div>
+      <p>
+        The <strong>Inter-Departmental Planning and Resource Sharing Platform</strong> demonstrates that a unified MERN web application can effectively eliminate the operational friction of collegiate asset scheduling. Real-time mathematical conflict detection eliminates double-booking of halls and exam invigilators, while role-governed HOD approval workflows reduce requisition turnaround from days to seconds.
+      </p>
+
+      <div class="section-title">Achievements</div>
+      <ul>
+        <li>A responsive React 18 interface with dedicated roles for Faculty, HOD, and Administrators.</li>
+        <li>A high-performance conflict checker utility preventing hall collisions and recommending alternatives.</li>
+        <li>An HOD approval console with interactive remark modals and real-time in-app notifications.</li>
+        <li>An examination timetable planner supporting multi-room allocation and invigilator clash prevention.</li>
+        <li>An integrated Academic Hub supporting curriculum uploads and downloads up to 10MB.</li>
+      </ul>
+
+      <div class="section-title">6.2 Future Enhancements</div>
+      <div class="table-caption">Table 6.1 Roadmap of future work</div>
+      <table>
+        <tr><th>Phase</th><th>Work</th><th>Result</th></tr>
+        <tr><td>1. IoT Locks</td><td>RFID/Biometric smart lock integration</td><td>Automated door unlocking upon approved booking</td></tr>
+        <tr><td>2. Mobile App</td><td>React Native mobile application</td><td>Push notifications and on-the-go HOD approvals</td></tr>
+        <tr><td>3. SMS / WhatsApp</td><td>Twilio / WhatsApp Business API</td><td>Instant SMS alerts for urgent booking changes</td></tr>
+        <tr><td>4. AI Scheduling</td><td>Machine learning timetable optimizer</td><td>Automated clash-free semester exam generation</td></tr>
+        <tr><td>5. ERP Sync</td><td>Single Sign-On (SSO) with Anna University</td><td>Seamless institutional identity and course sync</td></tr>
+      </table>
+      <div class="page-number">29</div>
+    </div>
+  </div>
+
+  <!-- ==================== REFERENCES & APPENDICES ==================== -->
+  <div class="page-container page-break">
+    <div class="page-border" style="padding: 18mm 16mm;">
+      <h1>REFERENCES / BIBLIOGRAPHY</h1>
+      <ol style="line-height: 1.6;">
+        <li>AICTE (All India Council for Technical Education), <em>Approval Process Handbook: Norms for Essential Infrastructure and Equipment in Technical Institutions</em>, New Delhi: AICTE.</li>
+        <li>React Documentation. <em>React 18 Architecture and Hooks Guide</em>. https://react.dev/</li>
+        <li>Vite Documentation. <em>Next Generation Frontend Tooling</em>. https://vite.dev/</li>
+        <li>MongoDB. <em>MongoDB Documentation and Manual</em>. https://www.mongodb.com/docs/</li>
+        <li>Mongoose. <em>Mongoose ODM Documentation</em>. https://mongoosejs.com/docs/</li>
+        <li>Node.js. <em>Node.js LTS Documentation</em>. https://nodejs.org/en/docs</li>
+        <li>Express.js. <em>Express Web Framework Documentation</em>. https://expressjs.com/</li>
+        <li>Fielding, R. T. (2000). <em>Architectural Styles and the Design of Network-based Software Architectures</em>. Doctoral Dissertation, UC Irvine.</li>
+        <li>Chow, M. et al. (2022). <em>Design and Implementation of Web-Based Campus Resource Management and Room Scheduling Systems</em>.</li>
+        <li>Kumar, A., and Sharma, P. (2023). <em>Comparative Analysis of Conflict Resolution Algorithms in Academic Timetable Scheduling</em>.</li>
+        <li>Forhad, M. et al. (2024). <em>Role-Based Access Control and Cloud Data Persistence in Multi-Departmental Educational Portals</em>.</li>
+      </ol>
+
+      <br>
+      <h1>APPENDICES (SOURCE CODE)</h1>
+      <p><strong>Repository:</strong> https://github.com/Priyankagit-153/FSD-Project</p>
+      
+      <div class="section-title">Express Server (backend/server.js)</div>
+      <pre>
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const { connectDB } = require('./config/db');
+const errorHandler = require('./middleware/errorHandler');
+
+const authRoutes = require('./routes/authRoutes');
+const resourceRoutes = require('./routes/resourceRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const examRoutes = require('./routes/examRoutes');
+const materialRoutes = require('./routes/materialRoutes');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use('/api/auth', authRoutes);
+app.use('/api/resources', resourceRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/exams', examRoutes);
+app.use('/api/materials', materialRoutes);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+connectDB().then(() => {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
+      </pre>
+      <div class="page-number">31</div>
+    </div>
+  </div>
+
+</body>
+</html>

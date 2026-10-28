@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
 
+let cachedConn = null;
 let memoryServer = null;
 
 const connectDB = async () => {
+  if (cachedConn && mongoose.connection.readyState === 1) {
+    return cachedConn;
+  }
+
   const uri = process.env.MONGO_URI;
   const isPlaceholder = !uri || uri.includes('PASTE_YOUR_ATLAS_CONNECTION_STRING_HERE');
 
@@ -10,12 +15,19 @@ const connectDB = async () => {
     try {
       const conn = await mongoose.connect(uri);
       console.log(`[Database] Connected to MongoDB Atlas: ${conn.connection.host}`);
+      cachedConn = conn;
       return conn;
     } catch (err) {
       console.error(`[Database] Failed to connect to MongoDB Atlas at ${uri}: ${err.message}`);
-      console.log('[Database] Falling back to MongoDB Memory Server for local development...');
+      if (!process.env.VERCEL) {
+        console.log('[Database] Falling back to MongoDB Memory Server for local development...');
+      }
     }
   } else {
+    if (process.env.VERCEL) {
+      console.warn('[Database] MONGO_URI is missing or contains placeholder. Please set MONGO_URI in your Vercel Project Environment Variables.');
+      return null;
+    }
     console.log('[Database] MONGO_URI contains placeholder. Initializing local MongoDB Memory Server...');
   }
 
